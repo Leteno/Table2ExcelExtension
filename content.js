@@ -55,7 +55,8 @@ function buttonOnClick(table) {
   });
   // Join \n if it is mac/linux, \r\n if it is windows
   const isWindows = navigator.userAgentData.platform.indexOf("Win") > -1;
-  const csvContent = csvData.join(isWindows ? "\r\n" : "\n");
+  const BOM = "\ufeff";
+  const csvContent = BOM + csvData.join(isWindows ? "\r\n" : "\n");
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
   // perform download
   const link = document.createElement("a");
