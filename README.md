@@ -8,7 +8,7 @@ An Extension to extract `<table>` data into csv file. Just a simple tool
 
 ## Installation
 
-* Download the repo into folder like C:/Users/<your-name>/Downloads/Table2ExcelExtension/
-* open chrome://extensions in Chrome/Edge
+* Download the repo into folder like `C:/Users/<your-name>/Downloads/Table2ExcelExtension/`
+* Open chrome://extensions in Chrome/Edge
 * Enable "Developer Mode", and click "Load unpacked". Select the Download folder `C:/Users/<your-name>/Downloads/Table2ExcelExtension/`
 * (Refresh the target page) and here we go.
