@@ -72,14 +72,26 @@ function buttonOnClick(table) {
 }
 
 function buttonOnHover(table) {
-  table.cachedBackgroundColor = table.style.backgroundColor;
-  table.style.backgroundColor = "yellow";
+  const cover = document.createElement("div");
+  cover.style.position = 'absolute';
+  cover.style.top = table.offsetTop + 'px';
+  cover.style.left = table.offsetLeft + 'px';
+  cover.style.width = table.offsetWidth + 'px';
+  cover.style.height = table.offsetHeight + 'px';
+  cover.style.backgroundColor = 'rgba(255, 255, 0, 0.5)';
+  cover.style.zIndex = '999';
+  cover.style.pointerEvents = 'none';
+  table.parentElement.appendChild(cover);
+
+  table.cachedCover = cover;
 }
 
 function buttonOnHoverOut(table) {
-  if (table.cachedBackgroundColor) {
-    table.style.backgroundColor = table.cachedBackgroundColor;
-  } else {
-    table.style.backgroundColor = "";
+  if (table.cachedCover) {
+    table.parentElement.removeChild(table.cachedCover);
+    var cover = table.cachedCover;
+    table.cachedCover = null;
+    delete cover;
   }
+  console.log("Button hover out on element:", table);
 }
