@@ -5,7 +5,7 @@ function stupidGame() {
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "startGame") {
+  if (request.action === "extract") {
     sendResponse({ status: "started" });
     var tables = findTableElements();
     tables.forEach((table, index) => {
@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       button.style.opacity = '0.5';
       button.src = 'chrome-extension://' + chrome.runtime.id + '/images/icon.png';
 
-      button.addEventListener("click", () => buttonOnClick(table));
+      button.addEventListener("click", () => buttonOnClick(table, request.mode));
       button.addEventListener("mouseover", () => buttonOnHover(table));
       button.addEventListener("mouseout", () => buttonOnHoverOut(table));
       table.insertAdjacentElement("beforebegin", button);
@@ -43,15 +43,22 @@ function findTableElements() {
   return tables;
 }
 
-function buttonOnClick(table) {
+function buttonOnClick(table, mode) {
   console.log("Button clicked on element:", table);
   // create a csv file based on the table data
   const rows = table.querySelectorAll("tr");
+  var allRowsData = [];
   const csvData = [];
   rows.forEach(row => {
     const cells = row.querySelectorAll("td, th");
     const rowData = Array.from(cells).map(cell => cell.textContent.trim());
-    csvData.push(rowData.join(","));
+    allRowsData.push(rowData);
+  });
+  if (mode === "stock") {
+    allRowsData = StockProcessor(allRowsData);
+  }
+  allRowsData.forEach(row => {
+    csvData.push(row.join(","));
   });
   // Join \n if it is mac/linux, \r\n if it is windows
   const isWindows = navigator.userAgentData.platform.indexOf("Win") > -1;
