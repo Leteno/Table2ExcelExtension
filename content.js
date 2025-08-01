@@ -58,7 +58,7 @@ function buttonOnClick(table, mode) {
     allRowsData = StockProcessor(allRowsData);
   }
   allRowsData.forEach(row => {
-    csvData.push(row.join(","));
+    csvData.push(row.map(cell => cell.replace(/\r/g, '\\r').replace(/\n/g, '\\n')).join(","));
   });
   // Join \n if it is mac/linux, \r\n if it is windows
   const isWindows = navigator.userAgentData.platform.indexOf("Win") > -1;
