@@ -51,7 +51,7 @@ function buttonOnClick(table, mode) {
   const csvData = [];
   rows.forEach(row => {
     const cells = row.querySelectorAll("td, th");
-    const rowData = Array.from(cells).map(cell => cell.textContent.trim());
+    const rowData = Array.from(cells).map(cell => getTdData(cell));
     allRowsData.push(rowData);
   });
   if (mode === "stock") {
@@ -76,6 +76,16 @@ function buttonOnClick(table, mode) {
   link.click();
   document.body.removeChild(link);
   console.log("CSV file downloaded.");
+}
+
+function getTdData(td) {
+  var data = td.textContent.trim();
+  if (data) return data;
+  // is image?
+  const svg = td.querySelector("svg");
+  if (svg)
+    return svg.getAttribute("aria-label") || svg.getAttribute("title") || "Image";
+  return "";
 }
 
 function buttonOnHover(table) {
